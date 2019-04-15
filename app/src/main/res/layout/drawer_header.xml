@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:weightSum="6"
+    android:gravity="center_horizontal">
+
+
+    <TextView
+        android:id="@+id/showCurrentTimeText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"/>
+
+
+    <ImageButton
+        android:id="@+id/profile_Photo"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:background= "#000000"
+        android:layout_weight="4"/>
+
+    <TextView
+        android:id="@+id/showEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginLeft="15dp"/>
+
+
+
+</LinearLayout>

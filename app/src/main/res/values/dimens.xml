@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">0dp</dimen>
+    <dimen name="design_fab_size_mini" override="true">61dp</dimen>
+    <dimen name="design_fab_size_normal" override="true">61dp</dimen>
+    <dimen name="design_fab_content_size" override="true">61dp</dimen>
+    <dimen name="design_fab_image_size" override="true">61dp</dimen>
+    <!-- Region End -->
+</resources>

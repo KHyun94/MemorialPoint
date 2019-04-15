@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:weightSum="10"
+    tools:context=".SignUp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <TextView
+            android:id="@+id/upperText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="회원가입"
+            android:textSize="70dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.5">
+
+        <LinearLayout
+            android:id="@+id/subLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="필수 작성"
+                        android:textAlignment="center" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ID"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t\t" />
+
+                    <RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/SignUp_editID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="아이디"
+                            android:inputType="text" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/SignUp_editID"
+                            android:hint="영 소문자/숫자/특수 기호(-,_) 사용가능 - 글자수 제한 6~12"
+                            android:textSize="10dp" />
+
+                    </RelativeLayout>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Password"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t\t" />
+
+                    <RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/SignUp_editPWD"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="패스워드"
+                            android:inputType="textPassword" />
+
+                        <TextView
+                            android:id="@+id/belong"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/SignUp_editPWD"
+                            android:hint="영 소문자/숫자 최소 1개씩 포함 8자 이상"
+                            android:textSize="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/belong"
+                            android:hint="대/소문자/숫자/!@#$%^\u0026* 사용 가능"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Re:Password"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t\t"
+                        android:textAlignment="center" />
+
+                    <RelativeLayout>
+
+                        <EditText
+                            android:id="@+id/SignUp_editRePWD"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="패스워드 재입력"
+                            android:inputType="textPassword" />
+
+                        <TextView
+                            android:id="@+id/discol"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/SignUp_editRePWD"
+                            android:visibility="gone"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Name"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t\t" />
+
+                    <EditText
+                        android:id="@+id/SignUp_editNAME"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="name"
+                        android:inputType="textPersonName" />
+                </TableRow>
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="30dp"
+                    android:weightSum="3">
+
+                    <Spinner
+                        android:id="@+id/spinner_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_spinner"
+                        android:spinnerMode="dropdown" />
+
+                    <Spinner
+                        android:id="@+id/spinner_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_spinner"
+                        android:spinnerMode="dropdown" />
+
+                    <Spinner
+                        android:id="@+id/spinner_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/background_spinner"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/Gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/SignUp_rbtnMALE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="50dp"
+                        android:button="@drawable/check_male" />
+
+                    <RadioButton
+                        android:id="@+id/SignUp_rbtnFEMALE"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/check_female" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="65dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Male" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Female" />
+
+                </LinearLayout>
+
+
+                <TableRow android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Address"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/SignUp_editADDRESS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:hint="주소 검색은 API"
+                        android:inputType="textPostalAddress" />
+
+                    <Button
+                        android:id="@+id/SignUp_checkLocation"
+                        android:layout_weight="2"
+                        android:text="검색" />
+
+                </TableRow>
+
+                <TableRow android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="e-mail"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/SignUp_editEMAIL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:hint="xxxxxx@xxxxxx.xxx "
+                        android:inputType="textEmailAddress" />
+
+                </TableRow>
+
+                <TableRow android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="TelePhone"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="\t\t"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/SignUp_editTEL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:hint="xxx - xxxx - xxxx"
+                        android:inputType="phone" />
+
+                </TableRow>
+
+                <Button
+                    android:id="@+id/SignUp_btnSignUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="회원 가입" />
+            </TableLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="center_horizontal"
+        android:text="COPYRIGHT FOR ME"/>
+</LinearLayout>
