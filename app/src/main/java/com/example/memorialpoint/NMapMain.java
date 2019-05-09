@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -55,6 +56,7 @@ import com.naver.maps.map.overlay.Marker;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -546,7 +548,7 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
         String imgName = "mePo_" + System.currentTimeMillis() + ".jpg";
 
         //저장 디렉토리 주소
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/MemorialPoint_Photo");
+        File storageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/MemorialPoint_Photo");
 
         //디렉토리가 없을 시 생성
         if (!storageDir.exists())
@@ -597,8 +599,6 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                                     sd.upload_Img_time.setText(sTime + "seconds ago");
                                 else if (mTime < 60) {
                                     sd.upload_Img_time.setText(mTime + "minutes ago");
-                                    Log.d(TAG, "onPermissionGranted: " + sTime);
-                                    Log.d(TAG, "onPermissionGranted: " + mTime);
                                 } else if (hTime < 24)
                                     sd.upload_Img_time.setText(hTime + "hours ago");
                                 else if (dTime < 31)
@@ -619,6 +619,11 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                                 startActivityForResult(intent, PICK_FROM_ALBUM);
 
+                                /*Intent albumIntent = new Intent();
+                                albumIntent.setType("image/*");
+                                albumIntent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(albumIntent, PICK_FROM_ALBUM);*/
+
                                 sd.dlg.dismiss();
                             }
                         });
@@ -627,18 +632,43 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                             @Override
                             public void onClick(View v) {
 
-                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
 
-                                File photoFile = createDir();
+                                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                                if (photoFile != null) {
-                                    Uri providerPath = FileProvider.getUriForFile
-                                            (mContext, getApplicationContext().getPackageName() + ".file_provider", photoFile);
+                                    if (captureIntent.resolveActivity(getPackageManager()) != null) {
+                                        File photoFile = createDir();
 
-                                    uriPath = providerPath;
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
-                                    startActivityForResult(intent, PICK_FROM_CAMERA);
+                                        if (photoFile != null) {
+
+                                            if(Build.VERSION.SDK_INT >= 24)
+                                            {
+                                                Log.d(TAG, "onClick: 24버전 이상");
+                                                Uri providerPath = FileProvider.getUriForFile
+                                                        (mContext, getApplicationContext().getPackageName() + ".file_provider", photoFile);
+
+                                                uriPath = providerPath;
+                                                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
+                                                startActivityForResult(captureIntent, PICK_FROM_CAMERA);
+                                            }
+                                            else
+                                            {
+                                                Log.d(TAG, "onClick: 24버전 이하");
+                                                uriPath = Uri.fromFile(photoFile);
+                                                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
+                                                startActivityForResult(captureIntent, PICK_FROM_CAMERA);
+                                            }
+
+
+                                        }
+
+
+                                    }
+
+                                } else {
+                                    Toast.makeText(mContext, "외장 메모리 미지원", Toast.LENGTH_LONG).show();
                                 }
+
                                 sd.dlg.dismiss();
                             }
                         });
@@ -676,20 +706,9 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                 try {
                     Uri imgUri = data.getData();
 
-                    Intent intent = new Intent(mContext, Editing_Img.class);
-                    String uriString = (String) imgUri.toString();
-                    intent.putExtra("imgUri", uriString);
-                    startActivityForResult(intent, EDIT_FROM_IMG);
-
-             //       bm = MediaStore.Images.Media.getBitmap(getContentResolver(), imgUri);
-
-                  /* Glide.with(mContext)
-                            .load(imgUri)
-                           .centerCrop()
-                           .thumbnail(0.1f)
-                            .format(DecodeFormat.PREFER_ARGB_8888)
-                           .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(profile_Photo);*/
+                    Intent editIntent = new Intent(mContext, Editing_Img.class);
+                    editIntent.putExtra("imgUri", imgUri);
+                    startActivityForResult(editIntent, EDIT_FROM_IMG);
 
                     upload_img_time = currentTime();
 
@@ -700,23 +719,41 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
 
             case PICK_FROM_CAMERA:
                 try {
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    Intent syncIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     File absolution_file = new File(absolutePath);
 
-                    Uri contentUri = Uri.fromFile(absolution_file);
+                    if(Build.VERSION.SDK_INT >= 24)
+                    {
+                        Log.d(TAG, "onClick: 24버전 이상");
+                        Uri providerPath = FileProvider.getUriForFile
+                                (mContext, getApplicationContext().getPackageName() + ".file_provider", absolution_file);
 
-                    intent.setData(contentUri);
-                    sendBroadcast(intent);
+                        uriPath = providerPath;
+
+                    }
+                    else
+                    {
+                        Log.d(TAG, "onClick: 24버전 이하");
+                        uriPath = Uri.fromFile(absolution_file);
+
+                    }
+
+                    syncIntent.setData(uriPath);
+                    mContext.sendBroadcast(syncIntent);
 
                     Intent intent_edit = new Intent(mContext, Editing_Img.class);
-                    String uriString = (String) contentUri.toString();
-                    intent.putExtra("imgUri", uriString);
+
+                    intent_edit.putExtra("imgUri", uriPath);
                     startActivityForResult(intent_edit, EDIT_FROM_IMG);
-                   /* Glide.with(mContext)
-                            .load(contentUri)
-                            .format(DecodeFormat.PREFER_ARGB_8888)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(profile_Photo);*/
+
+                    /*try{
+                        //uri를 비트맵으로 변환
+                        InputStream in = getContentResolver().openInputStream(data.getData());
+                        Bitmap bmImg = BitmapFactory.decodeStream(in);
+                    }catch(Exception e)
+                    {
+
+                    }*/
 
                     upload_img_time = currentTime();
 
@@ -725,52 +762,57 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                     break;
                 }
 
-            case EDIT_FROM_IMG:
+           /* case EDIT_FROM_IMG:
                 Log.d(TAG, "onActivityResult: aaaaaaaa");
 
-               String uriString = data.getStringExtra("editImg");
-                Toast.makeText(getApplicationContext(), "꽝" + uriString, Toast.LENGTH_LONG).show();
-                if(uriString != null)
+                String uriString = data.getStringExtra("editImg");
+                boolean value = data.getBooleanExtra("value", false);
+
+                if(value)
                 {
-                    Uri editUri = Uri.parse(uriString);
+                    String tmpUriString = data.getStringExtra("imgUri");
 
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    File absolution_file = new File(absolutePath);
+                    Uri saveUri = Uri.parse(tmpUriString);
 
-                    editUri = Uri.fromFile(absolution_file);
+                    if(saveUri != null)
+                    {
+                        //저장 위치
+                        File photoFile = createDir();
 
-                    intent.setData(editUri);
-                    sendBroadcast(intent);
+                        //저장 위치를 uri화
+                        Uri provider_uri = Uri.fromFile(photoFile);
 
-                    profile_Photo.setImageURI(editUri);
+                        //intent->crop
+                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        intent.setDataAndType(saveUri, "image/*");
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        intent.putExtra("scale", true);
+                        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, provider_uri);
+                        mContext.sendBroadcast(intent);
+                        intent.setData(saveUri);
+           //             startActivity(intent);
 
+                        profile_Photo.setImageURI(saveUri);
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "이미지가 정상적으로 등록되지 않았습니다." + uriString, Toast.LENGTH_LONG).show();
+                    }
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "꽝", Toast.LENGTH_LONG).show();
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "취소하셨습니다." + uriString, Toast.LENGTH_LONG).show();
                 }
-                break;
+
+
+                break;*/
             case REVISE_DATA:
                 receiveInfo = (Data_User) data.getSerializableExtra("revise_user");
                 break;
         }
 
-    }
-
-    public String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] arr_ENCODE = baos.toByteArray();
-        String img_base64 = Base64.encodeToString(arr_ENCODE, 0);
-
-        return img_base64;
-    }
-
-    public Bitmap StringToBitMap(String img_base64) {
-        byte[] arr_DECODE = Base64.decode(img_base64, 0);
-        ByteArrayInputStream bais = new ByteArrayInputStream(arr_DECODE);
-        Bitmap bitmap = BitmapFactory.decodeStream(bais);
-
-        return bitmap;
     }
 
 }
