@@ -2,15 +2,21 @@ package com.example.memorialpoint;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,12 +30,17 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import com.soundcloud.android.crop.Crop;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Editing_Img extends AppCompatActivity {
 
@@ -46,48 +57,69 @@ public class Editing_Img extends AppCompatActivity {
     //메인 이미지
     ImageView edit_img;
 
-    Uri uri;
-    String absolutePath;
-    Bitmap tmp;
+    Uri edited_Uri;
+    Uri saveUri;
+    Uri uriPath;
 
-    final int CROP_FROM_IMAGE = 111, ROTATION_FROM_IMAGE = 222, RETURN_EDITING = 3;
-    int barHeight;
+    Bitmap edited_Bitmap;
+    String absolutePath;
+
+    ArrayList<Uri> tmpArray;
+    final int CROP_FROM_IMAGE = 111, RETURN_PAGE = 222;
+
+    String TAG = "TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editing_img);
 
+        //액티비티
         act = this;
         mContext = this;
 
+        //top-bar
         topLayout = (RelativeLayout) findViewById(R.id.topLayout);
-        //  topToolbar = (Toolbar) findViewById(R.id.topToolbar);
+        //bottom-bar
         bottomToolbar = (Toolbar) findViewById(R.id.bottomToolbar);
+        //이미지뷰
         edit_img = (ImageView) findViewById(R.id.edit_img);
+        //top-bar: 뒤로가기 & 저장하기
         top_backBtn = (ImageButton) findViewById(R.id.top_back_btn);
         top_saveBtn = (ImageButton) findViewById(R.id.top_save_btn);
 
-        Intent intent = getIntent();
-        String uriString = intent.getStringExtra("imgUri");
+        //이미지 받아오기 -> uri으로 받아온다.
 
-        uri = Uri.parse(uriString);
+        edited_Uri = getIntent().getParcelableExtra("imgUri");
 
-        try {
-            tmp = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //이미지 등록
+        edit_img.setImageURI(edited_Uri);
 
-        edit_img.setImageBitmap(tmp);
+        tmpArray = new ArrayList<Uri>();
 
         setSupportActionBar(bottomToolbar);
 
+        //뒤로 가기
         top_backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                for (int i = 0; i < tmpArray.size(); i++) {
+                    File removeFile = new File(tmpArray.get(i).getPath());
+
+                    if (removeFile.getAbsoluteFile().exists()) {
+                        if(removeFile.delete()){
+                            Log.d(TAG, "편집 사진 삭제 완료");
+                        }
+                        else{
+                            Log.d(TAG, "편집 사진 삭제 실패");
+                        }
+                    }
+                }
+
+                Intent backIntent = new Intent();
+                backIntent.putExtra("value", false);
+                setResult(RESULT_OK, backIntent);
                 finish();
             }
         });
@@ -96,28 +128,65 @@ public class Editing_Img extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent saveIntent = new Intent();
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                tmp.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), tmp, "Title", null);
-                intent.putExtra("editImg", path);
-                setResult(RESULT_OK, saveIntent);
+                if (tmpArray.size() > 0)
+                    saveUri = tmpArray.get(tmpArray.size() - 1);
+                else
+                    saveUri = edited_Uri;
+
+                File photoFile = createDir();
+                FileOutputStream fos = null;
+
+                if (photoFile != null) {
+
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        Log.d(TAG, "onClick: 24버전 이상");
+                        Uri providerPath = FileProvider.getUriForFile
+                                (mContext, getApplicationContext().getPackageName() + ".file_provider", photoFile);
+
+                        uriPath = providerPath;
+                    } else {
+                        Log.d(TAG, "onClick: 24버전 이하");
+                        uriPath = Uri.fromFile(photoFile);
+                    }
+                }
+
+                try {
+                    fos = new FileOutputStream(photoFile);
+                    edited_Bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), edited_Uri);
+                    edited_Bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for (int i = 0; i < tmpArray.size(); i++) {
+                    Log.d("TAG", i + 1 + "번째: " + tmpArray.get(i));
+                }
+
+                for (int i = 0; i < tmpArray.size(); i++) {
+                    File removeFile = new File(tmpArray.get(i).getPath());
+
+                    if (removeFile.getAbsoluteFile().exists()) {
+                        if(removeFile.delete()){
+                            Log.d(TAG, "편집 사진 삭제 완료");
+                        }
+                        else{
+                            Log.d(TAG, "편집 사진 삭제 실패");
+                        }
+                    }
+                }
+                Uri returnUri = Uri.fromFile(photoFile);
+
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("value", true); //올바른 절차 or 도중 cancel
+                returnIntent.putExtra("result", returnUri);
+                setResult(RESULT_OK, returnIntent);
                 finish();
             }
         });
     }
-
-
-/*    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        barHeight = topLayout.getHeight();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(barHeight, barHeight);
-        top_backBtn.setLayoutParams(lp);
-        top_saveBtn.setLayoutParams(lp);
-    }*/
-
 
     // 디렉토리 생성
     public File createDir() {
@@ -126,7 +195,7 @@ public class Editing_Img extends AppCompatActivity {
         String imgName = "mePo_" + System.currentTimeMillis() + ".jpg";
 
         //저장 디렉토리 주소
-        File storageDir = new File(Environment.getExternalStorageDirectory() + "/MemorialPoint_Photo");
+        File storageDir = new File(Environment.getExternalStorageDirectory() + "/MemorialPoint_Photo/");
 
         //디렉토리가 없을 시 생성
         if (!storageDir.exists())
@@ -141,12 +210,9 @@ public class Editing_Img extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        Menu bottomBar = bottomToolbar.getMenu();
-
+        //bottom-bar
         bottomToolbar.setTitle("");
-
-        getMenuInflater().inflate(R.menu.editing_bottom_toolbar, bottomBar);
+        getMenuInflater().inflate(R.menu.editing_bottom_toolbar, menu);
         return true;
     }
 
@@ -155,24 +221,61 @@ public class Editing_Img extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
+            //bottom-bar -> crop
             case R.id.action_crop:
 
                 File photoFile = createDir();
-               /* tmp = ((BitmapDrawable)edit_img.getDrawable()).getBitmap();
-                uri = Uri.parse(BitMapToString(tmp));
-*/
-                Uri provider_uri = Uri.fromFile(photoFile);
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(uri, "image/*");
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intent.putExtra("scale", true);
-                intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, provider_uri);
-                startActivityForResult(intent, CROP_FROM_IMAGE);
+
+                if (photoFile != null) {
+
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    intent.setDataAndType(edited_Uri, "image/*");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    intent.putExtra("return-data", false);
+                    intent.putExtra("scale", true);
+                    intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile.getAbsolutePath());
+                    startActivityForResult(intent, CROP_FROM_IMAGE);
+
+                }
+
                 break;
 
             case R.id.action_rotation:
+
+                Matrix rotationMatrix = new Matrix();
+                rotationMatrix.postRotate(90);
+
+                try {
+                    edited_Bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), edited_Uri);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                edited_Bitmap = Bitmap.createBitmap(edited_Bitmap, 0, 0,
+                        edited_Bitmap.getWidth(), edited_Bitmap.getHeight(), rotationMatrix, false);
+
+                try{
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                    edited_Bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    String path = MediaStore.Images.Media.insertImage(mContext.getContentResolver(), edited_Bitmap, "Title", null);
+                    edited_Uri = Uri.parse(path);
+
+                    Cursor c = getContentResolver().query(Uri.parse(path), null,null,null,null);
+                    c.moveToNext();
+                    String rmPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+                    c.close();
+
+                    edit_img.setImageURI(edited_Uri);
+                    tmpArray.add(Uri.parse(rmPath));
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
 
                 break;
         }
@@ -193,36 +296,57 @@ public class Editing_Img extends AppCompatActivity {
                 Uri tmp_uri = data.getData();
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 intent.setData(tmp_uri);
-                sendBroadcast(intent);
+                mContext.sendBroadcast(intent);
 
-                try {
-                    tmp = MediaStore.Images.Media.getBitmap(getContentResolver(), tmp_uri);
+                edit_img.setImageURI(tmp_uri);
 
-                    if (tmp != null) {
-                        edit_img.setImageBitmap(tmp);
-                        Log.d("TAG", "onActivityResult: " + edit_img.getDrawable().toString());
-                        File f = new File(tmp_uri.getPath());
+                edited_Uri = tmp_uri;
 
-                        if (f.exists()) {
-                            f.delete();
-                            Log.d("TAG", "onActivityResult:  삭제성공");
-                            Log.d("TAG", "onActivityResult: " + f.getAbsolutePath());
-                        }
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Cursor c = getContentResolver().query(tmp_uri, null,null,null,null);
+                c.moveToNext();
+                String rmPath = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
 
-                break;
+                c.close();
+                tmpArray.add(Uri.parse(rmPath));
 
-            case ROTATION_FROM_IMAGE:
                 break;
 
         }
     }
+    @Override
+    public void onBackPressed() {
 
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext, R.style.AlertDialog_Style);
+        alert.setMessage("뒤로 돌아가시겠습니까?\n 진행 중인 이미지는 저장되지 않고 끝납니다.")
+                .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < tmpArray.size(); i++) {
+                            File removeFile = new File(tmpArray.get(i).getPath());
+
+                            if (removeFile.getAbsoluteFile().exists()) {
+                                if(removeFile.delete()){
+                                    Log.d(TAG, "편집 사진 삭제 완료");
+                                }
+                                else{
+                                    Log.d(TAG, "편집 사진 삭제 실패");
+                                }
+                            }
+                        }
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                }).setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        alert.show();
+
+
+    }
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
