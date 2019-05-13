@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PointF;
@@ -406,10 +407,10 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                         break;
 
                     case R.id.navigation_item_sign_out:
-                        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                        AlertDialog.Builder alert = new AlertDialog.Builder(mContext, R.style.AlertDialog_Style);
                         alert.setTitle("로그아웃");
                         alert.setMessage("로그아웃하시겠습니까?");
-                        alert.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                        alert.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(getApplicationContext(), SignIn.class);
@@ -418,7 +419,7 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                             }
                         });
 
-                        alert.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                        alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -619,11 +620,6 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                                 startActivityForResult(intent, PICK_FROM_ALBUM);
 
-                                /*Intent albumIntent = new Intent();
-                                albumIntent.setType("image/*");
-                                albumIntent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(albumIntent, PICK_FROM_ALBUM);*/
-
                                 sd.dlg.dismiss();
                             }
                         });
@@ -641,8 +637,7 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
 
                                         if (photoFile != null) {
 
-                                            if(Build.VERSION.SDK_INT >= 24)
-                                            {
+                                            if (Build.VERSION.SDK_INT >= 24) {
                                                 Log.d(TAG, "onClick: 24버전 이상");
                                                 Uri providerPath = FileProvider.getUriForFile
                                                         (mContext, getApplicationContext().getPackageName() + ".file_provider", photoFile);
@@ -650,21 +645,14 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                                                 uriPath = providerPath;
                                                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
                                                 startActivityForResult(captureIntent, PICK_FROM_CAMERA);
-                                            }
-                                            else
-                                            {
+                                            } else {
                                                 Log.d(TAG, "onClick: 24버전 이하");
                                                 uriPath = Uri.fromFile(photoFile);
                                                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
                                                 startActivityForResult(captureIntent, PICK_FROM_CAMERA);
                                             }
-
-
                                         }
-
-
                                     }
-
                                 } else {
                                     Toast.makeText(mContext, "외장 메모리 미지원", Toast.LENGTH_LONG).show();
                                 }
@@ -710,8 +698,6 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                     editIntent.putExtra("imgUri", imgUri);
                     startActivityForResult(editIntent, EDIT_FROM_IMG);
 
-                    upload_img_time = currentTime();
-
                     break;
                 } catch (Exception e) {
                     break;
@@ -722,92 +708,66 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
                     Intent syncIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     File absolution_file = new File(absolutePath);
 
-                    if(Build.VERSION.SDK_INT >= 24)
-                    {
+                    uriPath = Uri.fromFile(absolution_file);
+
+                    syncIntent.setData(uriPath);
+                    mContext.sendBroadcast(syncIntent);
+
+                    if (Build.VERSION.SDK_INT >= 24) {
                         Log.d(TAG, "onClick: 24버전 이상");
                         Uri providerPath = FileProvider.getUriForFile
                                 (mContext, getApplicationContext().getPackageName() + ".file_provider", absolution_file);
 
                         uriPath = providerPath;
 
-                    }
-                    else
-                    {
+                        syncIntent.setData(uriPath);
+                        mContext.sendBroadcast(syncIntent);
+                    } else {
                         Log.d(TAG, "onClick: 24버전 이하");
                         uriPath = Uri.fromFile(absolution_file);
 
+                        syncIntent.setData(uriPath);
+                        mContext.sendBroadcast(syncIntent);
                     }
 
-                    syncIntent.setData(uriPath);
-                    mContext.sendBroadcast(syncIntent);
-
                     Intent intent_edit = new Intent(mContext, Editing_Img.class);
-
                     intent_edit.putExtra("imgUri", uriPath);
                     startActivityForResult(intent_edit, EDIT_FROM_IMG);
-
-                    /*try{
-                        //uri를 비트맵으로 변환
-                        InputStream in = getContentResolver().openInputStream(data.getData());
-                        Bitmap bmImg = BitmapFactory.decodeStream(in);
-                    }catch(Exception e)
-                    {
-
-                    }*/
-
-                    upload_img_time = currentTime();
 
                     break;
                 } catch (Exception e) {
                     break;
                 }
 
-           /* case EDIT_FROM_IMG:
-                Log.d(TAG, "onActivityResult: aaaaaaaa");
+            case EDIT_FROM_IMG:
 
-                String uriString = data.getStringExtra("editImg");
-                boolean value = data.getBooleanExtra("value", false);
+                if (resultCode != RESULT_OK)
+                    return;
+                try{
+                    Uri resultUri = data.getParcelableExtra("result");
 
-                if(value)
-                {
-                    String tmpUriString = data.getStringExtra("imgUri");
+                    if (resultUri != null) {
 
-                    Uri saveUri = Uri.parse(tmpUriString);
+                        Log.d(TAG, "넘어온 결과값: " + resultUri);
 
-                    if(saveUri != null)
-                    {
-                        //저장 위치
-                        File photoFile = createDir();
+                        Intent sync = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        sync.setData(resultUri);
+                        mContext.sendBroadcast(sync);
 
-                        //저장 위치를 uri화
-                        Uri provider_uri = Uri.fromFile(photoFile);
+                        profile_Photo.setImageURI(resultUri);
 
-                        //intent->crop
-                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        intent.setDataAndType(saveUri, "image/*");
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        intent.putExtra("scale", true);
-                        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, provider_uri);
-                        mContext.sendBroadcast(intent);
-                        intent.setData(saveUri);
-           //             startActivity(intent);
-
-                        profile_Photo.setImageURI(saveUri);
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(), "이미지가 정상적으로 등록되지 않았습니다." + uriString, Toast.LENGTH_LONG).show();
+                        upload_img_time = currentTime();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "이미지가 정상적으로 등록되지 않았습니다.", Toast.LENGTH_LONG).show();
                     }
                 }
-                else
+                catch (NullPointerException e)
                 {
-                    Toast.makeText(getApplicationContext(), "취소하셨습니다." + uriString, Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "이미지가 정상적으로 등록되지 않았습니다.", Toast.LENGTH_LONG).show();
                 }
+                break;
 
-
-                break;*/
             case REVISE_DATA:
                 receiveInfo = (Data_User) data.getSerializableExtra("revise_user");
                 break;
