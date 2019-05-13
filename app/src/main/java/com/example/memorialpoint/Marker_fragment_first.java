@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -43,7 +44,7 @@ public class Marker_fragment_first extends Fragment {
     Uri uriPath;
     String absolutePath;
     Bitmap bitmap;
-    final int PICK_FROM_ALBUM = 1, PICK_FROM_CAMERA = 2;
+    final int PICK_FROM_ALBUM = 1, PICK_FROM_CAMERA = 2, EDIT_FROM_IMG = 3;
 
     public Marker_fragment_first() {
 
@@ -72,27 +73,41 @@ public class Marker_fragment_first extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent, PICK_FROM_ALBUM);
-                Log.d(TAG, "onClick: 앨범");
-
+                Log.d(TAG, "마커 앨범");
             }
         });
 
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
 
-                File photoFile = createDir();
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if (photoFile != null) {
-                    Uri providerPath = FileProvider.getUriForFile
-                            (mContext, getActivity().getPackageName() + ".file_provider", photoFile);
+                    File photoFile = createDir();
 
-                    uriPath = providerPath;
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, providerPath);
-                    startActivityForResult(intent, PICK_FROM_CAMERA);
-                    Log.d(TAG, "onClick: 카메라");
+                    if (photoFile != null) {
+
+                        if (Build.VERSION.SDK_INT >= 24) {
+                            Log.d(TAG, "onClick: 24버전 이상");
+                            Uri providerPath = FileProvider.getUriForFile
+                                    (mContext, getActivity().getPackageName() + ".file_provider", photoFile);
+
+                            uriPath = providerPath;
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
+                            startActivityForResult(captureIntent, PICK_FROM_CAMERA);
+                        } else {
+                            Log.d(TAG, "onClick: 24버전 이하");
+                            uriPath = Uri.fromFile(photoFile);
+                            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
+                            startActivityForResult(captureIntent, PICK_FROM_CAMERA);
+                        }
+                    }
+
+                } else {
+                    Toast.makeText(mContext, "외장 메모리 미지원", Toast.LENGTH_LONG).show();
                 }
+                Log.d(TAG, "마커 카메라");
             }
         });
 
@@ -101,6 +116,7 @@ public class Marker_fragment_first extends Fragment {
 
     public File createDir() {
 
+        Log.d(TAG, "마커 디렉토리 생성 맟 파일 생성");
         //저장될 파일의 이름
         String imgName = "mePo_" + System.currentTimeMillis() + ".jpg";
 
@@ -118,25 +134,21 @@ public class Marker_fragment_first extends Fragment {
         return imgFilePath;
     }
 
-    public void BitMapToString(Bitmap bitmap)
-    {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] arr = baos.toByteArray();
-        String img_base64 = Base64.encodeToString(arr, 0);
-    }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.d(TAG, "onActivityResult: " + requestCode);
         switch (requestCode) {
             case PICK_FROM_ALBUM:
                 try {
+                    Log.d(TAG, "마커 앨범 결과");
                     Uri imgUri = data.getData();
-                    placeImg.setImageURI(imgUri);
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imgUri);
+                    Log.d(TAG, "마커 앨범 결과 Uri: " + imgUri.getPath());
+                    Intent editIntent = new Intent(getActivity(), Editing_Img.class);
+                    editIntent.putExtra("imgUri", imgUri);
+                    startActivityForResult(editIntent, EDIT_FROM_IMG);
+
                     break;
                 } catch (Exception e) {
                     break;
@@ -144,16 +156,68 @@ public class Marker_fragment_first extends Fragment {
 
             case PICK_FROM_CAMERA:
                 try {
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    Log.d(TAG, "마커 카메라 결과");
+                    Intent syncIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     File absolution_file = new File(absolutePath);
-                    Uri contentUri = Uri.fromFile(absolution_file);
-                    intent.setData(contentUri);
-                    getActivity().sendBroadcast(intent);
-                    placeImg.setImageURI(contentUri);
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), contentUri);
+
+                    uriPath = Uri.fromFile(absolution_file);
+
+                    syncIntent.setData(uriPath);
+                    getActivity().sendBroadcast(syncIntent);
+
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        Log.d(TAG, "onClick: 24버전 이상");
+                        Uri providerPath = FileProvider.getUriForFile
+                                (mContext, getActivity().getPackageName() + ".file_provider", absolution_file);
+
+                        uriPath = providerPath;
+
+                        syncIntent.setData(uriPath);
+                        getActivity().sendBroadcast(syncIntent);
+                    } else {
+                        Log.d(TAG, "onClick: 24버전 이하");
+                        uriPath = Uri.fromFile(absolution_file);
+
+                        syncIntent.setData(uriPath);
+                        getActivity().sendBroadcast(syncIntent);
+                    }
+
+                    Log.d(TAG, "마커 카메라 결과 Uri: " + uriPath.getPath());
+                    Intent intent_edit = new Intent(getActivity(), Editing_Img.class);
+                    intent_edit.putExtra("imgUri", uriPath);
+                    startActivityForResult(intent_edit, EDIT_FROM_IMG);
+
+                    break;
                 } catch (Exception e) {
                     break;
                 }
+
+            case EDIT_FROM_IMG:
+                Log.d(TAG, "마커 에디팅");
+                try{
+                    Uri resultUri = data.getParcelableExtra("result");
+
+                    if (resultUri != null) {
+
+                        Log.d(TAG, "넘어온 결과값: " + resultUri);
+
+                        Intent sync = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        sync.setData(resultUri);
+                        getActivity().sendBroadcast(sync);
+
+                        placeImg.setImageURI(resultUri);
+
+                    } else {
+                        Toast.makeText(mContext, "이미지가 정상적으로 등록되지 않았습니다.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                catch (NullPointerException e)
+                {
+                    Toast.makeText(mContext, "이미지가 정상적으로 등록되지 않았습니다.", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+
+                break;
 
         }
     }
