@@ -434,7 +434,6 @@ public class NMapMain extends AppCompatActivity implements OnMapReadyCallback {
 
                 return true;
             }
-
         });
     }
 
