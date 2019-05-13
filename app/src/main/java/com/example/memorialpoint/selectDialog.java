@@ -3,6 +3,7 @@ package com.example.memorialpoint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class selectDialog {
         // 커스텀 다이얼로그의 레이아웃을 설정한다.
         dlg.setContentView(R.layout.select_dialog);
 
+        dlg.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         // 커스텀 다이얼로그를 노출한다.
         dlg.show();
 
