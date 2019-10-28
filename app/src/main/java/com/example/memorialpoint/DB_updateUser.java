@@ -15,17 +15,14 @@ public class DB_updateUser extends AsyncTask<String, Void, String>
     @Override
     protected String doInBackground(String... strings) {
 
-        String link = "http://" + strings[0] + "/updateUser.php";
+        String link = strings[0] + "memorial_point/PHPs/updateUser.php";
         String user_no = strings[1];
         String user_pwd = strings[2];
-        String user_address = strings[3];
-        String user_tel = strings[4];
 
 
         try {
 
-            String postData = "no=" + user_no+ "&" + "pwd=" + user_pwd+ "&"
-                    + "address=" + user_address + "&" + "tel=" + user_tel;
+            String postData = "no=" + user_no+ "&" + "pwd=" + user_pwd;
 
             URL url = new URL(link);
 

@@ -15,13 +15,11 @@ public class DB_removeUser extends AsyncTask<String, Void, String>
     @Override
     protected String doInBackground(String... strings) {
 
-        String link = "http://"+ strings[0] +"/removeUser.php";
+        String link = strings[0] +"memorial_point/PHPs/removeUser.php";
         String user_no = strings[1];
 
         try {
-
             String postData = "no=" + user_no;
-
 
             URL url = new URL(link);
 

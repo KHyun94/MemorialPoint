@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="60dp">
+
+    <!--이미지-->
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/comments_child_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+    </LinearLayout>
+
+    <!--내용-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--TextView(아이디), TextView(댓글 내용)-->
+        <LinearLayout
+            android:id="@+id/comments_child_id_comments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!--아이디 + 댓글(or 대댓글) 내용-->
+            <TextView
+                android:id="@+id/comments_child_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="id   comments" />
+
+        </LinearLayout>
+
+        <!--좌측 TextView(답글 달기), 우측 TextView(날짜)-->
+        <RelativeLayout
+            android:id="@+id/comments_child_reply_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/comments_child_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="날짜" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

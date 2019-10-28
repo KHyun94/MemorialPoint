@@ -16,8 +16,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColorPrimary">#ffffff</item>
         <item name = "android:colorAccent">#ffffff</item>
-        <item name="android:gravity">center</item>
-        <item name="android:windowBackground">@color/btn_colorGreen</item>
-
+        <item name="android:gravity">left</item>
+        <item name="android:windowBackground">@color/color_custom</item>
     </style>
 </resources>

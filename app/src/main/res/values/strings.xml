@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">MemorialPoint</string>
-    <string name="ip">http://172.30.1.15/</string>
-    <string name="iptwo">172.30.1.15</string>
+    <string name="ip">http://54.180.115.55/</string>
+
+    <string name="AtSigh">\u0040</string>
+    <string name="Friend">\u0040친구목록</string>
+
+    <string name="chattingIP">54.180.115.55</string>
+    <string name="chattingPORT">5555</string>
+
+    <string name="naverMapID">"fylal7uvmf"</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

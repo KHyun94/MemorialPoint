@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChattingClient">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_weight="5"
+        android:background="#03A9F4">
+
+        <!--뒤로가기 버튼 -> RoomManagerFragment로 돌아간다.-->
+        <ImageView
+            android:id="@+id/cc_backBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/p_editing_back"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:id="@+id/cc_room_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="aaaa"
+            android:textSize="20dp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <!--채팅 대화내용 리스트-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cc_chattingBoxRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="90" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_round"
+        android:orientation="horizontal"
+        android:paddingVertical="5dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="5dp">
+
+        <!--글 등록 박스-->
+        <EditText
+            android:id="@+id/cc_chatWriteEt"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="90"
+            android:background="@android:color/transparent"
+            android:paddingVertical="10dp"
+            android:paddingLeft="20dp"
+            android:singleLine = "true" />
+
+        <!--글 전송 버튼-->
+        <TextView
+            android:id="@+id/cc_chatSubmitTv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="전송"
+            android:gravity="center"
+            android:textColor="#C5CAE9"/>
+
+    </LinearLayout>
+
+</LinearLayout>

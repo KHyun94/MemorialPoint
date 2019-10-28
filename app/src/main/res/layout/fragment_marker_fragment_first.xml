@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Marker_fragment_first">
+    tools:context=".Fragments.MarkerImageFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,11 +13,10 @@
         android:layout_weight="8">
 
         <ImageView
-            android:id="@+id/placeImg"
+            android:id="@+id/imgView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:background="@drawable/p_marker_noimg"
             android:scaleType="fitCenter" />
 
     </LinearLayout>

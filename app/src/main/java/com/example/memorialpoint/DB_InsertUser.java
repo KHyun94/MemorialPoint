@@ -24,22 +24,18 @@ import java.net.URLEncoder;
             protected String doInBackground(String... strings) {
                 Log.d(TAG, "doInBackground: 1");
 
-                String link = "http://"+strings[0]+"/insertUser.php";
+                String link = strings[0]+"memorial_point/PHPs/insertUser.php";
                 String user_id = strings[1];
                 String user_pwd = strings[2];
                 String user_name = strings[3];
-                String user_birthday = strings[4];
-                String user_sex = strings[5];
-                String user_address = strings[6];
-                String user_email = strings[7];
-                String user_tel = strings[8];
+                String user_sex  = strings[4];
+                String user_email = strings[5];
 
                 try {
                     Log.d(TAG, "doInBackground: 2");
 
-
                     String postData = "id=" + user_id + "&" + "pwd=" + user_pwd+ "&" + "name=" + user_name +
-                            "&" +"birthday=" + user_birthday + "&" + "sex=" + user_sex+ "&" + "address=" + user_address +"&"+ "email=" + user_email + "&" + "tel=" + user_tel;
+                            "&" + "sex=" + user_sex +"&"+ "email=" + user_email;
 
                     URL url = new URL(link);
                     Log.d(TAG, "doInBackground: 3 url: " + url);
@@ -52,7 +48,6 @@ import java.net.URLEncoder;
                     con.connect();
 
                     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(con.getOutputStream());
-
 
                     outputStreamWriter.write(postData);
                     outputStreamWriter.flush();

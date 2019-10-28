@@ -9,12 +9,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_home"
-        android:title="Home"
-        android:icon="@drawable/p_nmap_action_home"
-        app:showAsAction="always"/>
-
-    <item
         android:id="@+id/action_marker"
         android:title="Marker"
         android:icon="@drawable/p_nmap_action_marker"

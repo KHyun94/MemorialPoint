@@ -2,22 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/navigation_item_notice"
-            android:checkable="true"
-            android:title="Notice"/>
 
         <item
             android:id="@+id/navigation_item_profile"
             android:title="Profile"/>
 
         <item
-            android:id="@+id/navigation_item_favorites"
-            android:title="Favorites"/>
-
-        <item
-            android:id="@+id/navigation_item_setting"
-            android:title="Setting"/>
+            android:id="@+id/navigation_item_my_post"
+            android:title="My Post"/>
 
         <item
             android:id="@+id/navigation_item_sign_out"

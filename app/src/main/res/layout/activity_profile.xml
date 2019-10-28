@@ -3,11 +3,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ProfileLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:background="@drawable/p_signin_background_signin"
     android:orientation="vertical"
     tools:context=".Profile">
 
@@ -15,8 +13,11 @@
         android:id="@+id/showLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="#80F5F5F5"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="visible"
         android:weightSum="10">
@@ -24,290 +25,186 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_marginHorizontal="30dp"
+            android:layout_weight="8"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="#808080"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/profile_showEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:hint="이메일"
+                    android:ellipsize="marquee"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#808080"
+                    android:textSize="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="ID"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="#808080"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/profile_showID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:hint="아이디"
+                    android:inputType="text"
+                    android:textSize="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Password"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="#808080"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/profile_showPWD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:inputType="textPassword"
+                    android:padding="5dp"
+                    android:textSize="25dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:layout_marginVertical="10dp"
+                    android:textColor="#808080"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/profile_showName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="이름"
+                    android:layout_marginVertical="10dp"
+                    android:inputType="textPersonName"
+                    android:textSize="25dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RadioButton
+                    android:id="@+id/profile_showMALE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:enabled="false"
+                    android:button="@drawable/check_male" />
+
+                <RadioButton
+                    android:id="@+id/profile_showFEMALE"
+                    android:layout_width="wrap_content"
+                  android:enabled="false"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/check_female" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="65dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Male" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Female" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 android:gravity="center"
-                android:text="회원 정보"
-                android:textSize="60dp" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Profile_btnRevise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/custom_btn"
+                    android:text="수정"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/Profile_btnEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_btn"
+                    android:text="탈퇴"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="7.5">
-
-                <LinearLayout
-                    android:id="@+id/ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="vertical">
-
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="ID"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showID"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:text="아이디"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Password"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showPWD"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPassword"
-                                android:text="비밀번호"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Name"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showNAME"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="이름"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Birthday"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showBirthday"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="생년월일"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <LinearLayout
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/Profile_rbtnMALE"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="50dp"
-                                android:button="@drawable/p_signup_male_nonclick" />
-
-                            <RadioButton
-                                android:id="@+id/Profile_rbtnFEMALE"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:button="@drawable/p_signup_female_nonclick" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="65dp"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:text="Male" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Female" />
-                        </LinearLayout>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Address"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showADDRESS"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="주소"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="e-mail"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showEMAIL"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="이메일"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                        <TextView android:text="" />
-
-                        <TableRow android:gravity="center">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="TelePhone"
-                                android:textAlignment="center"
-                                android:textSize="20dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="\t\t\t" />
-
-                            <TextView
-                                android:id="@+id/Profile_showTEL"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName"
-                                android:text="전화번호"
-                                android:textSize="20dp" />
-                        </TableRow>
-
-                    </TableLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="\n"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/Profile_btnRevise"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="수정" />
-
-                        <Button
-                            android:id="@+id/Profile_btnEnd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="탈퇴" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </ScrollView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:text="COPYRIGHT FOR ME" />
 
     </LinearLayout>
 
@@ -321,225 +218,140 @@
         android:visibility="gone"
         android:weightSum="10">
 
+
         <LinearLayout
+            android:id="@+id/subLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="회원 정보 수정"
-                android:textSize="70dp" />
-
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7.5">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/subLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:background="#80F5F5F5"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="10">
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TableRow android:layout_gravity="center_horizontal">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="필수 작성"
-                            android:textAlignment="center" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="ID"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t\t" />
-
-                        <TextView
-                            android:id="@+id/Profile_reviseID"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="아이디"
-                            android:inputType="text" />
-                    </TableRow>
-
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Password"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t\t" />
-
-                        <RelativeLayout>
-
-                            <EditText
-                                android:id="@+id/Profile_revisePWD"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="패스워드"
-                                android:inputType="textPassword" />
-
-                            <TextView
-                                android:id="@+id/belong"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/Profile_revisePWD"
-                                android:hint="영 소문자/숫자 최소 1개씩 포함 8자 이상"
-                                android:textSize="10dp" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/belong"
-                                android:hint="대/소문자/숫자/!@#$%^\u0026* 사용 가능"
-                                android:textSize="10dp" />
-                        </RelativeLayout>
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Re:Password"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t\t"
-                            android:textAlignment="center" />
-
-                        <RelativeLayout>
-
-                            <EditText
-                                android:id="@+id/Profile_reviseRePWD"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:hint="패스워드 재입력"
-                                android:inputType="textPassword" />
-
-                            <TextView
-                                android:id="@+id/Profile_discol"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/Profile_reviseRePWD"
-                                android:textSize="10dp"
-                                android:visibility="invisible" />
-                        </RelativeLayout>
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Name"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t\t" />
-
-                        <TextView
-                            android:id="@+id/Profile_reviseNAME"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="name"
-                            android:inputType="textPersonName" />
-                    </TableRow>
-
-                    <TextView />
-
-                    <TableRow android:gravity="center">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Birthday"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t\t" />
-
-                        <TextView
-                            android:id="@+id/Profile_reviseBirthday"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:text="생년월일" />
-                    </TableRow>
-
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_weight="8"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/Gender"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_height="wrap_content">
 
-                        <RadioButton
-                            android:id="@+id/Profile_reviseRbtnMALE"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="50dp"
-                            android:button="@drawable/p_signup_male_nonclick" />
+                            android:text="Email"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="#808080"
+                            android:textSize="20dp"/>
 
-                        <RadioButton
-                            android:id="@+id/Profile_reviseRbtnFEMALE"
-                            android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/profile_reviseEmail"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:button="@drawable/p_signup_female_nonclick" />
+                            android:layout_marginVertical="10dp"
+                            android:inputType="textEmailAddress"
+                            android:textColor="#808080"
+                            android:ellipsize="marquee"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="ID"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="#808080"
+                            android:textSize="20dp"/>
+
+                        <TextView
+                            android:id="@+id/profile_reviseID"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginVertical="10dp"
+                            android:hint="아이디"
+                            android:inputType="text"
+                            android:textSize="25dp" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:layout_marginVertical="10dp"
+                            android:textColor="#808080"
+                            android:textSize="20dp"/>
+
+                        <TextView
+                            android:id="@+id/profile_reviseName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="이름"
+                            android:layout_marginVertical="10dp"
+                            android:inputType="textPersonName"
+                            android:textSize="25dp" />
+
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/profile_revisePWD"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@drawable/border_square"
+                        android:hint="패스워드"
+                        android:inputType="textPassword"
+                        android:padding="5dp"
+                        android:textSize="25dp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        >
+
+                        <EditText
+                            android:id="@+id/profile_reviseRePWD"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/border_square"
+                            android:hint="패스워드 재입력"
+                            android:inputType="textPassword"
+                            android:padding="5dp"
+                            android:textSize="25dp" />
+
+                        <TextView
+                            android:id="@+id/profile_discol"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/profile_reviseRePWD"
+                            android:textSize="10dp"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -565,115 +377,48 @@
                     </LinearLayout>
 
 
-                    <TableRow android:weightSum="10">
+                    <LinearLayout
+                        android:id="@+id/Gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <RadioButton
+                            android:id="@+id/profile_reviseMALE"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="Address"
-                            android:textAlignment="center" />
+                            android:layout_marginRight="50dp"
+                            android:button="@drawable/check_male" />
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <RadioButton
+                            android:id="@+id/profile_reviseFEMALE"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="\t\t"
-                            android:textAlignment="center" />
+                            android:button="@drawable/check_female" />
 
-                        <EditText
-                            android:id="@+id/Profile_reviseADDRESS"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:hint="주소 검색은 API"
-                            android:inputType="textPostalAddress" />
-
-                        <Button
-                            android:id="@+id/Profile_revise_checkLocation"
-                            android:layout_weight="2"
-                            android:text="검색" />
-
-                    </TableRow>
-
-                    <TableRow android:weightSum="10">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="e-mail"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:id="@+id/Profile_reviseEMAIL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:hint="xxxxxx@xxxxxx.xxx "
-                            android:inputType="textEmailAddress" />
-
-                    </TableRow>
-
-                    <TableRow android:weightSum="10">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="TelePhone"
-                            android:textAlignment="center" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="\t\t"
-                            android:textAlignment="center" />
-
-                        <EditText
-                            android:id="@+id/Profile_reviseTEL"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="6"
-                            android:hint="xxx - xxxx - xxxx"
-                            android:inputType="phone" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
+                    </LinearLayout>
 
                     <Button
-                        android:id="@+id/Profile_reviseOk"
+                        android:id="@+id/profile_reviseOk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:text="완료" />
+                        android:background="@drawable/custom_btn"
+                        android:text="완료"
+                        android:textColor="#ffffff"
+                        android:textSize="20dp" />
+
 
                 </LinearLayout>
 
             </LinearLayout>
+        </LinearLayout>
 
 
-        </ScrollView>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:gravity="center_horizontal"
-            android:text="COPYRIGHT FOR ME" />
     </LinearLayout>
 
 </LinearLayout>

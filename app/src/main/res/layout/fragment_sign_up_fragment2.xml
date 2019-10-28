@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.SignUpFragment"
+    android:background="@drawable/p_signin_background_signin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:background="#80F5F5F5"
+        android:weightSum="10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:layout_weight="8"
+            android:focusableInTouchMode="true"
+            android:layout_marginHorizontal="30dp">
+
+
+            <TextView
+                android:id="@+id/SignIn_textEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:hint="이메일"
+                android:textIsSelectable="true"
+                android:ellipsize="marquee"
+                android:textColor="#808080"
+                android:inputType="textEmailAddress"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/SignUp_editID"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="아이디"
+                android:inputType="text"
+                android:textSize="25dp"
+                android:padding="5dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/border_square"/>
+
+
+            <EditText
+                android:id="@+id/SignUp_editPWD"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="패스워드"
+                android:textSize="25dp"
+                android:padding="5dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/border_square"
+                android:inputType="textPassword" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginVertical="10dp">
+
+                <EditText
+                    android:id="@+id/SignUp_editRePWD"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:padding="5dp"
+                    android:textSize="25dp"
+                    android:background="@drawable/border_square"
+                    android:hint="패스워드 재입력"
+                    android:inputType="textPassword" />
+
+                <TextView
+                    android:id="@+id/matchText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/SignUp_editRePWD"
+                    android:textSize="10dp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/SignUp_editNAME"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="이름"
+                android:padding="5dp"
+                android:textSize="25dp"
+                android:background="@drawable/border_square"
+                android:inputType="textPersonName" />
+
+            <LinearLayout
+                android:id="@+id/Gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <RadioButton
+                    android:id="@+id/SignUp_rbtnMALE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="50dp"
+                    android:button="@drawable/check_male" />
+
+                <RadioButton
+                    android:id="@+id/SignUp_rbtnFEMALE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/check_female" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="65dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Male" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Female" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/SignUp_btnSignUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/custom_btn"
+                android:layout_marginHorizontal="0dp"
+                android:layout_gravity="center"
+                android:text="회원 가입" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

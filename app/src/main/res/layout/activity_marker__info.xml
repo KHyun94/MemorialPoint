@@ -8,57 +8,49 @@
     android:weightSum="10"
     tools:context=".Marker_Info">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/markerInfo_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="100">
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageButton
             android:id="@+id/pre_Btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
+            android:layout_weight="10"
             android:onClick="onClick"
-            android:src="@drawable/p_marker_previous"
-            app:backgroundTint="#00ff0000"
-            app:borderWidth="0dp"
-            app:elevation="0dp" />
+            android:layout_gravity="center"
+            android:background="@drawable/p_marker_previous" />
 
         <TextView
             android:id="@+id/markerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:layout_weight="80"
+            android:gravity="center"
             android:text="가운데 Text" />
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageButton
             android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="10"
             android:onClick="onClick"
-            android:src="@drawable/p_marker_next"
-            app:backgroundTint="#00ff0000"
-            app:borderWidth="0dp"
-            app:elevation="0dp" />
+            android:background="@drawable/p_marker_next" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
+    <com.example.memorialpoint.NoneSwipeViewPager
+        android:id="@+id/markerViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="9">
+        android:layout_weight="9" />
 
-
-    </android.support.v4.view.ViewPager>
-
-
-    <!-- <FrameLayout
-         android:id="@+id/marker_frame"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"></FrameLayout>-->
 
 </LinearLayout>

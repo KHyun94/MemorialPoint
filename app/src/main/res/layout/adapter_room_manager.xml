@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp">
+
+    <!--이미지-->
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/rm_profile_img"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_alignParentTop="true"/>
+
+    </RelativeLayout>
+
+    <!--내용-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--TextView(아이디), TextView(댓글 내용)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!--아이디 + 댓글(or 대댓글) 내용-->
+            <TextView
+                android:id="@+id/rm_room_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="no   name" />
+
+        </LinearLayout>
+
+        <!--좌측 TextView(답글 달기), 우측 TextView(날짜)-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+            android:id="@+id/rm_host_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="rm_host_name"
+            android:focusable="false"/>
+
+            <TextView
+                android:id="@+id/rm_create_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="날짜"
+                android:focusable="false"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -35,24 +35,21 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-
                     android:gravity="center"
                     android:text="ID"
                     android:textColor="#FFFFFF"
                     android:textSize="25dp" />
 
                 <EditText
-                    android:id="@+id/editId"
+                    android:id="@+id/SignIn_editId"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="6"
-                    android:background="@drawable/rounded_view"
-
+                    android:background="@drawable/border_round"
                     android:gravity="center"
                     android:inputType="text"
                     android:textColor="#000000"
@@ -66,23 +63,21 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textPwd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-
                     android:gravity="center"
                     android:text="Password"
                     android:textColor="#FFFFFFFF"
                     android:textSize="25dp" />
 
                 <EditText
-                    android:id="@+id/editPwd"
+                    android:id="@+id/SignIn_editPwd"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="6"
-                    android:background="@drawable/rounded_view"
+                    android:background="@drawable/border_round"
 
                     android:gravity="center"
                     android:inputType="textPassword"
@@ -101,7 +96,7 @@
             <TableRow android:gravity="center">
 
                 <Button
-                    android:id="@+id/btnSignIn"
+                    android:id="@+id/SignIn_btnSignIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -112,7 +107,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnSignUp"
+                    android:id="@+id/SignIn_btnSignUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -125,22 +120,11 @@
             </TableRow>
 
             <TableRow android:gravity="center">
-
-                <TextView
-                    android:id="@+id/btnSearch_ID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:clickable="true"
-                    android:fontFamily="sans-serif-condensed"
-                    android:gravity="center"
-                    android:text="아이디/비밀번호 찾기"
-                    android:textStyle="bold" />
-
                 <CheckBox
-                    android:id="@+id/auto_login"
-                    android:text="자동 로그인"
-                    android:checked="false"/>
+                    android:id="@+id/SignIn_autoLogin"
+                    android:checked="false"
+                    android:textColor="#ffffff"
+                    android:text="자동 로그인" />
             </TableRow>
         </TableLayout>
 

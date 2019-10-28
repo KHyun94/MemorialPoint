@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked= "false"
-        android:drawable = "@drawable/p_signup_female_nonclick"></item>
-    <item android:state_checked= "true"
-        android:drawable = "@drawable/p_signup_female"></item>
+    <item android:drawable="@drawable/p_signup_female_nonclick" android:state_checked="false"></item>
+    <item android:drawable="@drawable/p_signup_female" android:state_checked="true"></item>
 </selector>
 
